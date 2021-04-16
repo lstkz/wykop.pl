@@ -33,7 +33,10 @@ export function AuthModule(props: AuthProps) {
   const actions = useActions<Actions>({
     logout: () => {
       clearAccessToken();
-      void router.push('/');
+      void router.push('/login');
+      setState(draft => {
+        draft.user = null;
+      });
     },
     loginUser: data => {
       setAccessToken(data.token);

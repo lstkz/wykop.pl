@@ -24,10 +24,17 @@ async function _createAuthData(user: UserModel): Promise<AuthResult> {
   };
 }
 
+const USERNAME_ERROR_MESSAGE =
+  'Login musi mieć od 4 do 35 znaków, może zawierać małe i duże litery, cyfry, oraz znaki - i _ i zaczynać się od litery lub cyfry';
+
+const USERNAME_REGEX = /^[a-zA-Z0-9][a-zA-Z0-9_-]+$/;
+
 export const resolvers: Resolvers = {
   Mutation: {
-    login: async (_, { password, username }) => {
-      const existing = await UserCollection.findOneByUsername(username);
+    login: async (_, { password, usernameOrEmail }) => {
+      const existing = usernameOrEmail.includes('@')
+        ? await UserCollection.findOneByEmail(usernameOrEmail)
+        : await UserCollection.findOneByUsername(usernameOrEmail);
       if (!existing) {
         throw new AuthenticationError('Invalid credentials');
       }
@@ -41,8 +48,18 @@ export const resolvers: Resolvers = {
       return _createAuthData(existing);
     },
     register: async (_, { values }) => {
-      if (values.password.length < 5) {
-        throw new ValidationError('Password must have min 5 characters');
+      if (
+        values.username.length < 4 ||
+        values.username.length > 35 ||
+        !USERNAME_REGEX.test(values.username)
+      ) {
+        throw new ValidationError(USERNAME_ERROR_MESSAGE);
+      }
+      if (values.username.length < 4) {
+        throw new ValidationError('Username must have min 4 characters');
+      }
+      if (values.password.length < 6) {
+        throw new ValidationError('Password must have min 6 characters');
       }
       if (await UserCollection.findOneByEmail(values.email)) {
         throw new ValidationError('Email already registered');

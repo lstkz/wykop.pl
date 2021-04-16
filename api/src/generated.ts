@@ -40,7 +40,7 @@ export type Mutation = {
 };
 
 export type MutationLoginArgs = {
-  username: Scalars['String'];
+  usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
 };
 
@@ -251,7 +251,7 @@ export type MutationResolvers<
     Maybe<ResolversTypes['AuthResult']>,
     ParentType,
     ContextType,
-    RequireFields<MutationLoginArgs, 'username' | 'password'>
+    RequireFields<MutationLoginArgs, 'usernameOrEmail' | 'password'>
   >;
   register?: Resolver<
     Maybe<ResolversTypes['AuthResult']>,
