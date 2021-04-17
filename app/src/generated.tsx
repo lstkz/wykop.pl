@@ -19,6 +19,23 @@ export type Scalars = {
   Void: any;
 };
 
+export type AppLink = {
+  __typename?: 'AppLink';
+  id: Scalars['ID'];
+  author: User;
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  totalVotes: Scalars['Float'];
+};
+
+export type AppLinkInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
 export type AuthResult = {
   __typename?: 'AuthResult';
   token: Scalars['String'];
@@ -31,6 +48,7 @@ export type Mutation = {
   register?: Maybe<AuthResult>;
   addTodo?: Maybe<Todo>;
   removeTodo?: Maybe<Scalars['Void']>;
+  createAppLink: Scalars['String'];
 };
 
 export type MutationLoginArgs = {
@@ -48,6 +66,10 @@ export type MutationAddTodoArgs = {
 
 export type MutationRemoveTodoArgs = {
   id: Scalars['String'];
+};
+
+export type MutationCreateAppLinkArgs = {
+  values?: Maybe<AppLinkInput>;
 };
 
 export type Query = {
@@ -80,6 +102,21 @@ export type User = {
   __typename?: 'User';
   id: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type CreateAppLinkMutationVariables = Exact<{
+  values: AppLinkInput;
+}>;
+
+export type CreateAppLinkMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'createAppLink'
+>;
+
+export type GetAppLinkQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAppLinkQuery = { __typename?: 'Query' } & {
+  allTodos: Array<{ __typename?: 'Todo' } & Pick<Todo, 'id'>>;
 };
 
 export type RegisterMutationVariables = Exact<{
@@ -177,6 +214,108 @@ export const AllTodoFieldsFragmentDoc = gql`
     name
   }
 `;
+export const CreateAppLinkDocument = gql`
+  mutation createAppLink($values: AppLinkInput!) {
+    createAppLink(values: $values)
+  }
+`;
+export type CreateAppLinkMutationFn = Apollo.MutationFunction<
+  CreateAppLinkMutation,
+  CreateAppLinkMutationVariables
+>;
+
+/**
+ * __useCreateAppLinkMutation__
+ *
+ * To run a mutation, you first call `useCreateAppLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateAppLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createAppLinkMutation, { data, loading, error }] = useCreateAppLinkMutation({
+ *   variables: {
+ *      values: // value for 'values'
+ *   },
+ * });
+ */
+export function useCreateAppLinkMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateAppLinkMutation,
+    CreateAppLinkMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateAppLinkMutation,
+    CreateAppLinkMutationVariables
+  >(CreateAppLinkDocument, options);
+}
+export type CreateAppLinkMutationHookResult = ReturnType<
+  typeof useCreateAppLinkMutation
+>;
+export type CreateAppLinkMutationResult = Apollo.MutationResult<CreateAppLinkMutation>;
+export type CreateAppLinkMutationOptions = Apollo.BaseMutationOptions<
+  CreateAppLinkMutation,
+  CreateAppLinkMutationVariables
+>;
+export const GetAppLinkDocument = gql`
+  query GetAppLink {
+    allTodos {
+      id
+    }
+  }
+`;
+
+/**
+ * __useGetAppLinkQuery__
+ *
+ * To run a query within a React component, call `useGetAppLinkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAppLinkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAppLinkQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAppLinkQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAppLinkQuery,
+    GetAppLinkQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAppLinkQuery, GetAppLinkQueryVariables>(
+    GetAppLinkDocument,
+    options
+  );
+}
+export function useGetAppLinkLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAppLinkQuery,
+    GetAppLinkQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAppLinkQuery, GetAppLinkQueryVariables>(
+    GetAppLinkDocument,
+    options
+  );
+}
+export type GetAppLinkQueryHookResult = ReturnType<typeof useGetAppLinkQuery>;
+export type GetAppLinkLazyQueryHookResult = ReturnType<
+  typeof useGetAppLinkLazyQuery
+>;
+export type GetAppLinkQueryResult = Apollo.QueryResult<
+  GetAppLinkQuery,
+  GetAppLinkQueryVariables
+>;
 export const RegisterDocument = gql`
   mutation Register($registerValues: RegisterInput!) {
     register(values: $registerValues) {

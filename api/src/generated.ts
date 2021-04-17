@@ -25,6 +25,23 @@ export type Scalars = {
   Void: any;
 };
 
+export type AppLink = {
+  __typename?: 'AppLink';
+  id: Scalars['ID'];
+  author: User;
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  totalVotes: Scalars['Float'];
+};
+
+export type AppLinkInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  tags: Array<Scalars['String']>;
+};
+
 export type AuthResult = {
   __typename?: 'AuthResult';
   token: Scalars['String'];
@@ -37,6 +54,7 @@ export type Mutation = {
   register?: Maybe<AuthResult>;
   addTodo?: Maybe<Todo>;
   removeTodo?: Maybe<Scalars['Void']>;
+  createAppLink: Scalars['String'];
 };
 
 export type MutationLoginArgs = {
@@ -54,6 +72,10 @@ export type MutationAddTodoArgs = {
 
 export type MutationRemoveTodoArgs = {
   id: Scalars['String'];
+};
+
+export type MutationCreateAppLinkArgs = {
+  values?: Maybe<AppLinkInput>;
 };
 
 export type Query = {
@@ -204,15 +226,17 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  AuthResult: ResolverTypeWrapper<AuthResult>;
+  AppLink: ResolverTypeWrapper<AppLink>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  AppLinkInput: AppLinkInput;
+  AuthResult: ResolverTypeWrapper<AuthResult>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   RegisterInput: RegisterInput;
   Subscription: ResolverTypeWrapper<{}>;
   Todo: ResolverTypeWrapper<Todo>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
   User: ResolverTypeWrapper<User>;
   Void: ResolverTypeWrapper<Scalars['Void']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -220,18 +244,33 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  AuthResult: AuthResult;
+  AppLink: AppLink;
+  ID: Scalars['ID'];
   String: Scalars['String'];
+  Float: Scalars['Float'];
+  AppLinkInput: AppLinkInput;
+  AuthResult: AuthResult;
   Mutation: {};
   Query: {};
-  Float: Scalars['Float'];
   RegisterInput: RegisterInput;
   Subscription: {};
   Todo: Todo;
-  ID: Scalars['ID'];
   User: User;
   Void: Scalars['Void'];
   Boolean: Scalars['Boolean'];
+};
+
+export type AppLinkResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['AppLink'] = ResolversParentTypes['AppLink']
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  totalVotes?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AuthResultResolvers<
@@ -270,6 +309,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationRemoveTodoArgs, 'id'>
+  >;
+  createAppLink?: Resolver<
+    ResolversTypes['String'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateAppLinkArgs, never>
   >;
 };
 
@@ -325,6 +370,7 @@ export interface VoidScalarConfig
 }
 
 export type Resolvers<ContextType = any> = {
+  AppLink?: AppLinkResolvers<ContextType>;
   AuthResult?: AuthResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

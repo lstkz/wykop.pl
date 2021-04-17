@@ -22,6 +22,7 @@
     "mz": "^2.7.0",
     "prettier": "^2.2.1",
     "remeda": "^0.0.27",
+    "slugify": "^1.5.0",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.2.3"
   },

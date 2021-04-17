@@ -5,5 +5,6 @@ export const resolvers: Resolvers = deepMerge.all([
   require('./auth').resolvers,
   require('./user').resolvers,
   require('./Todo').resolvers,
+  require('./AppLink').resolvers,
   // APPEND
 ]);

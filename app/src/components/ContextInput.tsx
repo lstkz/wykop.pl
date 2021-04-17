@@ -1,6 +1,6 @@
 import React from 'react';
-import tw from 'twin.macro';
 import { useContextMethods } from '../hooks/useContextMethods';
+import { FormError } from './FormError';
 import { Input, InputProps } from './Input';
 
 interface ContextInputProps extends InputProps {
@@ -23,9 +23,7 @@ export function ContextInput(props: ContextInputProps) {
           updateValue(e.target.value);
         }}
       />
-      {hasError && (
-        <div css={tw`text-red-500 mt-1 text-sm font-medium`}>{error}</div>
-      )}
+      {hasError && <FormError>{error}</FormError>}
     </div>
   );
 }

@@ -11,6 +11,16 @@ type Mutation {
   register(values: RegisterInput!): AuthResult
   addTodo(name: String!): Todo
   removeTodo(id: String!): Void
+  createAppLink(values: AppLinkInput): String!
+}
+
+type AppLink {
+  id: ID!
+  author: User!
+  title: String!
+  description: String!
+  url: String!
+  totalVotes: Float!
 }
 
 type Subscription {
@@ -38,4 +48,11 @@ input RegisterInput {
   username: String!
   email: String!
   password: String!
+}
+
+input AppLinkInput {
+  title: String!
+  description: String!
+  url: String!
+  tags: [String!]!
 }

@@ -5,7 +5,8 @@ export const { createCollection, connect, withTransaction } = initDb({
   collections: () => [
     require('./collections/AccessToken'),
     require('./collections/User'),
-    require('./collections/Todo')
+    require('./collections/Todo'),
+    require('./collections/AppLink'),
     // APPEND
   ],
   uri: MONGODB_URI,
